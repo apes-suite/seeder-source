@@ -1,0 +1,45 @@
+Seeder Mesh Generator {#mainpage}
+=====================
+
+The goal of Seeder is simple: create an octree mesh out of a given geometry.
+Typically the given geometry is given in the form of [STL](@ref stl)-files.
+As simple as this goal is the basic idea for the construction of this mesh.
+The user has to define basic mesh information to generate the
+most simplest mesh, fully [periodic cube](@ref periodicCube) without 
+any geometries. Basic mesh information are [bounding cube](@ref boundingCube),
+minlevel and folder. *Bounding cube* is the root node of the octree,
+defining the complete universe, from which all element are derived by 
+recursive bisection, global *minlevel* is the minimum refinement in the 
+fluid domain and *folder* is the location to dump the mesh output in treelm 
+format.
+
+The user can also define a set of geometries, that should describe certain
+aspects in the mesh. Most importantly the boundaries of the computational
+domain. Those have to consist of some supported geometric primitives, right
+now the following primitives are available:
+- [Points](@ref point)
+- [Lines](@ref line)
+- [Triangles](@ref triangle)
+- [Boxes](@ref sdr_canonicalnd_module)
+- [Spheres](@ref sphere)
+- [Cylinders](@ref cylinder)
+- [Special](@ref special)
+
+Additionally some combining objects like [Planes](@ref plane) and 
+[STL](@ref stl)-files can be used.
+They are automatically translated to these primitives.
+
+[Transformations](@ref transformation) like translation, scaling,
+reflection and rotation can be applied to all geometric primitives.
+
+Finally, those geometric definitions, have to be given one of the
+[attributes](@ref attribute).
+Attributes are defined by their *kind*:
+- [Boundary](@ref boundary)
+- [Seed](@ref seed)
+- [Refinement](@ref refinement)
+a *level*, that describes the minimal refinement level by which the object
+should be resolved and some kind specific further values, like a label for
+the boundary conditions.
+
+For some further internal details see the [overall algorithm](@ref sdr_algorithm).

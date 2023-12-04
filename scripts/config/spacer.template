@@ -1,0 +1,85 @@
+outputname = 'spacer'
+outputpreview = false 
+
+-- mesh folder
+folder = '${MESH}$'
+-- boundingbox: two entries: origin and length in this
+-- order, if no keys are used
+-- bounding box for complete spacer
+boundingbox = {origin = {-${SPACER_LENGTH}$/2.0, -0.02, -0.1},
+               length = 20.0}
+
+-- refinebox: for specified spacer dimension in geom-spacer table
+refinebox = {{origin = {-${SPACER_LENGTH}$/2.0, -0.02, -0.1},
+            length = {${SPACER_LENGTH}$, 0.04, 0.2},
+            refinementlevel = ${REFINEMENT_LEVEL}$
+            }}               
+-- refinebox: three entries: origin, length and refinementlevel
+-- seed: position of seed 
+seed = { points = { {boundingbox.origin[1]+0.1,
+                     boundingbox.origin[2]+0.02,
+                     boundingbox.origin[3]+0.1}
+                  }
+       }
+-- general refinement levels
+-- minrefine: defines minimum refinement level of the entire domain
+--
+-- maxrefine: defines maximum refinement
+-- gets overwritten from madatory STL levels
+-- (deprecated - used only for spacer stuff right now)
+-- will become default for stl refinement level once
+-- it is not mandatory any more
+minrefine = 1 
+maxrefine = ${REFINEMENT_LEVEL}$
+
+-- Laboratory scale spacer:
+-- So far: Spacer length along x, width along z, height along y
+-- length=20 cm,width=10 cm,
+-- filament, radius = 0.01 cm
+-- spacer gap = 0.1 cm ! distance between two parallel filament
+-- offset = 0.0 ! offset of spacer along its height in bounding box
+-- default offset=0.0. create spacer in bounding box origin
+-- boundary_label = 'spacer'. define boundary name
+
+geom = {
+ spacer = {{length = {distance=${SPACER_LENGTH}$,axis='x',gap=0.1},
+          width = {distance=0.2,axis='z',gap=0.1},
+          radius = 0.01,
+          offset = 0.0, -- offset distance from bounding box origin
+          bclabel = 'spacer'}}
+	  ,
+	periodic = {{plane1={
+	                    vecA={${SPACER_LENGTH}$,0.0,0.0},
+			    vecB={0.0,0.04,0.0},
+			    pos={-${SPACER_LENGTH}$/2.0,-0.02,-0.1+0.001}},
+                     plane2={
+		            vecA={${SPACER_LENGTH}$,0.0,0.0 },
+			    vecB={0.0,0.04,0.0},
+			    pos={-${SPACER_LENGTH}$/2.0,-0.02,0.1-0.001}},
+	             bclabel='periodic_z',
+		     refinementlevel=4}
+		     }
+		     ,
+	plane = {
+		  {vecA={${SPACER_LENGTH}$,0.0,0.0},    
+       vecB={0.0,0.0,0.2},
+       pos={-${SPACER_LENGTH}$/2.0,-0.02+0.001,-0.1},
+       bclabel='south',
+       refinementlevel=4}
+		 ,{vecA={${SPACER_LENGTH}$,0.0,0.0},    
+       vecB={0.0,0.0,0.2},
+       pos={-${SPACER_LENGTH}$/2.0,0.02,-0.1},
+       bclabel='north',
+       refinementlevel=4}
+      ,{vecA={0.0,0.04,0.0},
+		   vecB={0.0,0.0,0.2},
+		   pos={-${SPACER_LENGTH}$/2.0+0.001,-0.02,-0.1},
+		   bclabel='inlet',
+		   refinementlevel=4}
+		 ,{vecA={0.0,0.04,0.0},    
+       vecB={0.0,0.0,0.2},
+       pos={${SPACER_LENGTH}$/2.0-0.001,-0.02,-0.1},
+       bclabel='outlet',
+       refinementlevel=4}
+		  }
+		 } 

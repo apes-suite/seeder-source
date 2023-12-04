@@ -1,0 +1,297 @@
+!> \page periodicPlaneExample How to define periodic planes in lua file?
+!!
+!!* There are some Pre-conditions to satisfy to define periodic planes, 
+!! look at \ref periodicBoundProcedure "How periodic 
+!! boundaries are created in seeder?"
+!!* No need to specify any 'bclabel* for periodic planes.
+!!* No need to specify periodic boundary in the solver configuration 
+!!  file since they are treated explicitly while building the neighbor array.
+!!
+!!In the example below, the following variables are fixed.
+!!\verbatim
+!!length=1.0
+!!-- minimum refinement level
+!!minrefine = 1 
+!!-- maximum refinement level
+!!maxrefine = 4
+!!
+!!-- mesh size
+!!-- The offset distance between periodic planes dx is computed from 
+!!-- the maximum refinement level.
+!!dx=2.*length/math.pow(2,maxrefine)
+!!
+!!-- bounding box defining the complete domain
+!!bounding_cube = {origin = {-length,-length,-length},
+!!               length = 2.*length}
+!!
+!!-- seed point 
+!!seed = { points = { {0.,0.,dx*0.5}}  }
+!!\endverbatim
+!!
+!!\li Single-level
+!!
+!!Creating a geometry with periodic planes in z.direction with only one fluid element between the periodic planes. 
+!!
+!!* Single periodic plane in z-direction
+!!
+!!\verbatim
+!!spatial_object={
+!!  attribute = {
+!!    kind = 'boundary',
+!!    level = 1
+!!  },
+!!  geometry = {
+!!    kind = 'periodic',
+!!    object = {
+!!       plane1={
+!!         origin = {-length,-length,dx+dx/2.},
+!!         vec = { {2.*length,0.0,0.0},
+!!                 {0.0,2.*length,0.0}
+!!               }
+!!       },
+!!       plane2={
+!!         origin = {-length,-length,-dx},
+!!         vec = { {0.0,2.*length,0.0},
+!!                 {2.*length,0.0,0.0}
+!!               }
+!!      }
+!!    }
+!!  }
+!!}
+!!\endverbatim
+!!\image html singleLevel_periodic.png
+!!
+!!* Multiple periodic planes
+!!
+!!\verbatim
+!!spatial_object={
+!!{
+!!  attribute = {
+!!    kind = 'boundary',
+!!    level = 1
+!!  },
+!!  geometry = {
+!!    kind = 'periodic',
+!!    object = {
+!!       plane1={
+!!         origin = {-length,-length,dx+dx/2.},
+!!         vec = { {2.*length,0.0,0.0},
+!!                 {0.0,2.*length,0.0}
+!!               }
+!!       },
+!!       plane2={
+!!         origin = {-length,-length,-dx},
+!!         vec = { {0.0,2.*length,0.0},
+!!                 {2.*length,0.0,0.0}
+!!               }
+!!      }
+!!    }
+!!  }
+!!},
+!!{
+!!  attribute = {
+!!    kind = 'boundary',
+!!    level = 1
+!!  },
+!!  geometry = {
+!!    kind = 'periodic',
+!!    object = {
+!!       plane1={
+!!         origin = {length,-length,-length},
+!!         vec = { {0.0,2.*length,0.0},
+!!                 {0.0,0.0,2.*length}
+!!               }
+!!       },
+!!       plane2={
+!!         origin = {-length,-length,-length},
+!!         vec = { {0.0,0.0,2.*length},
+!!                 {0.0,2.*length,0.0}
+!!               }
+!!      }
+!!    }
+!!  }
+!!},
+!!{
+!!  attribute = {
+!!    kind = 'boundary',
+!!    level = 1
+!!  },
+!!  geometry = {
+!!    kind = 'periodic',
+!!    object = {
+!!       plane1={
+!!         origin = {-length,length,-length},
+!!         vec = { {0.0,0.0,2.*length},
+!!                 {2.*length,0.0,0.0}
+!!               }
+!!       },
+!!       plane2={
+!!         origin = {-length,-length,-length},
+!!         vec = { {2.*length,0.0,0.0},
+!!                 {0.0,0.0,2.*length}
+!!               }
+!!      }
+!!    }
+!!  }
+!!}
+!!}
+!!\endverbatim
+!!
+!!\image html singleLevel_multiperiodic.png
+!!
+!!\li Multi-level
+!!
+!!For multi-level periodic planes, the minimum offset distance _dxmin_ is computed from the maximum refinement level in the refinement box such that
+!!periodic planes are aligned perfectly parallel to each other as shown in the figure below. Two refinement box are used in this example-
+!!
+!!\verbatim
+!!-- maximum refinement level of the refinement box
+!!mrefine = maxrefine + 2
+!!
+!!dxmin=2.*length/math.pow(2,mrefine)
+!!
+!!-- refinebox: three entries: origin, length and refinementlevel
+!!spatial_object={
+!!{
+!!  attribute = {
+!!    kind = 'refinement',
+!!    level = mrefine
+!!  },
+!!  geometry = {
+!!    kind = 'canoND',
+!!    object = {
+!!      origin = {-0.25, -0.25/2., -0.5},
+!!       vec = { {0.5,0.0,0.0},
+!!               {0.0,0.5/2,0.0},
+!!               {0.0,0.0,1.0}
+!!             }
+!!    }
+!!  }
+!!},
+!!{
+!!  attribute = {
+!!    kind = 'refinement',
+!!    level = maxrefine + 1
+!!  },
+!!  geometry = {
+!!    kind = 'canoND',
+!!    object = {
+!!      origin = {-0.25, -0.25, -0.5},
+!!       vec = { {0.5,0.0,0.0},
+!!               {0.0,0.5,0.0},
+!!               {0.0,0.0,1.0}
+!!             }
+!!    }
+!!  }
+!!}
+!!}
+!!\endverbatim
+!!
+!!* Single periodic plane in z-direction
+!!
+!!\verbatim
+!!table.insert(spatial_object,{
+!!  attribute = {
+!!    kind = 'boundary',
+!!    level = 1
+!!  },
+!!  geometry = {
+!!    kind = 'periodic',
+!!    object = {
+!!       plane1={
+!!         origin = {-length,-length,dx+dx/2.},
+!!         vec = { {2.*length,0.0,0.0},
+!!                 {0.0,2.*length,0.0}
+!!               }
+!!       },
+!!       plane2={
+!!         origin = {-length,-length,-dx},
+!!         vec = { {0.0,2.*length,0.0},
+!!                 {2.*length,0.0,0.0}
+!!               }
+!!      }
+!!    }
+!!  }
+!!})
+!!
+!!\endverbatim
+!!\image html multiLevel_periodic.png
+!!
+!!* Multiple periodic planes
+!!
+!!\verbatim
+!!table.insert= (spatial_object,
+!!{
+!!  attribute = {
+!!    kind = 'boundary',
+!!    level = 1
+!!  },
+!!  geometry = {
+!!    kind = 'periodic',
+!!    object = {
+!!       plane1={
+!!         origin = {-length,-length,dx+dx/2.},
+!!         vec = { {2.*length,0.0,0.0},
+!!                 {0.0,2.*length,0.0}
+!!               }
+!!       },
+!!       plane2={
+!!         origin = {-length,-length,-dx},
+!!         vec = { {0.0,2.*length,0.0},
+!!                 {2.*length,0.0,0.0}
+!!               }
+!!      }
+!!    }
+!!  }
+!!},
+!!{
+!!  attribute = {
+!!    kind = 'boundary',
+!!    level = 1
+!!  },
+!!  geometry = {
+!!    kind = 'periodic',
+!!    object = {
+!!       plane1={
+!!         origin = {length,-length,-length},
+!!         vec = { {0.0,2.*length,0.0},
+!!                 {0.0,0.0,2.*length}
+!!               }
+!!       },
+!!       plane2={
+!!         origin = {-length,-length,-length},
+!!         vec = { {0.0,0.0,2.*length},
+!!                 {0.0,2.*length,0.0}
+!!               }
+!!      }
+!!    }
+!!  }
+!!},
+!!{
+!!  attribute = {
+!!    kind = 'boundary',
+!!    level = 1
+!!  },
+!!  geometry = {
+!!    kind = 'periodic',
+!!    object = {
+!!       plane1={
+!!         origin = {-length,length,-length},
+!!         vec = { {0.0,0.0,2.*length},
+!!                 {2.*length,0.0,0.0}
+!!               }
+!!       },
+!!       plane2={
+!!         origin = {-length,-length,-length},
+!!         vec = { {2.*length,0.0,0.0},
+!!                 {0.0,0.0,2.*length}
+!!               }
+!!      }
+!!    }
+!!  }
+!!})
+!!\endverbatim
+!! \image html multiLevel_multiperiodic.png
+!! Example for multiple periodic planes is availabe at
+!! \link testsuite/multiPeriodic/seeder.lua 
+!! \example testsuite/multiPeriodic/seeder.lua 

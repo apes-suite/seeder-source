@@ -1,0 +1,43 @@
+!> \mainpage Introduction to Seeder
+!! Introduction
+!! -----
+!! The goal of Seeder is simple: create an octree mesh out of a given geometry. 
+!! Typically the given geometry is given in the form of STL-files. As simple as
+!! this goal is the basic idea for the construction of this mesh. The user has 
+!! to define basic mesh information to generate the most simplest mesh, fully 
+!! periodic cube without any geometries.Basic mesh information are bounding 
+!! cube, minlevel and folder. Bounding cube is the root node of the octree, 
+!! defining the complete universe, from which all element are derived by 
+!! recursive bisection,global minlevel is the minimum refinement in the fluid 
+!! do main and folder is the location to dump the mesh output in treelm format. 
+!!
+!! 
+!! Usage
+!! -----
+!! - [Quick Start: Building and Compiling Seeder](@ref buildseeder) 
+!!   
+!! - \ref tem_requirements
+!!
+!! Getting Started
+!! -----
+!! - \ref testsuites
+!!
+!! An introduction to the usage of the features of Seeder.You are guided 
+!! through all required steps for from generating the meshes, configuring the 
+!! solver and post processing the Results.
+!!
+!! Basic Feature
+!! -----
+!! - \ref tracking_mod
+!! - \ref motivation
+!! 
+!! Overview
+!! ----- 
+!! - \ref aot_overview
+!!
+!!
+!! The octree data structure
+!! -----
+!! - \ref tem_distributed_octree
+!!
+!! 

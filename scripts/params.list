@@ -1,0 +1,15 @@
+# Leave one blank space after "=" sign everywhere
+# Also check if you have left no empty space after the end of line
+# Path to lib (default - lib <do not change>) 
+PATH_TO_LIB = lib
+# executable path
+PATH_TO_EXECUTABLE = ../build/seeder
+# filename which contains the template should be named <something>.template
+LUA_TEMPLATE = config/spacer.template
+#################################################################################
+#& Put parameters to be changed in lua file below                              &# 
+#################################################################################
+#Refinement level
+REFINEMENT_LEVEL = 14
+# spacer width
+SPACER_LENGTH = 20.0

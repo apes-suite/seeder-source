@@ -1,0 +1,9 @@
+!> \page point Point
+!! Point is defined through canonical geometry kind with an
+!! object origin.
+!! Example:
+!! \include testsuite/point/seeder.lua
+!! Image below shows the output mesh of fully periodic cube.
+!! \image html sdr_point.png
+
+

@@ -1,0 +1,46 @@
+
+##---------------------------------  seeder.py  ---------------------------------------------------#
+
+This python script helps to generate several lua files and meshes based on the input parameters 
+given in the parameter file (params.list). One or more input parameters can be varied at a time 
+and mesh can be generated for all of them.
+
+##----------------------------Files and folders:---------------------------------------------------#
+The fillowing files and folders can be seen. Their purposes are.
+-seeder.py: The executable main file fpr generating meshes.
+-config     : Template lua files are to be stored here (rename files to <something>.template 
+              before storing here. eg. spacer.template; lidcavity.template etc)
+-params.list: Use this to vary parameters.
+-lib        : Contains library for templating. Not to be touched.
+
+
+##-----------------------------RUN SCRIPT ---------------------------------------------------------#
+The following steps should be taken to run the script.
+
+1 . Remove the name of the mesh folder if any from the lua script and name the mesh folder like below. 
+    -- mesh folder
+    folder = '${MESH}$'
+   
+    You can copy and paste above 2 lines in your lua script.
+
+2. Create a template file (from your lua file). Name it <something>.template (eg spacer.template) and
+   put it in the directory config/ 
+
+3. Template should be modified with the variables put inside "${" and " }$". For example to vary the
+   Refinement level--> Open the template file and  type <${REFINEMENT_LEVEL}$> at appropriate places
+   where the value of refinement level should be written. Just to make it more clear the script would 
+   replace "${REFINEMENT_LEVEL}$" with the value that you give in the params.list
+
+4. Add the variables you created in the template file <spacer.template> in to params.list. Make sure
+   the variable names put in lua file exactly matches the one put in params.list.
+
+5. Run the script using ./seeder.py   
+
+6. seeder.py can take parameter file in command line argument. 
+   Example: ./seeder.py params_2.list
+
+7. If no filename is specified in the command line that seeder.py will try to open default file
+   "params.list"
+##-------------------------------------------------------------------------------------------------#
+
+

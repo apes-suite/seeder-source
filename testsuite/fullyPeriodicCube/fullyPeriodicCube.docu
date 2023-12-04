@@ -1,0 +1,11 @@
+!> \page fullyPeriodicCube Fully periodic cube
+!! Fully periodic cube is the most simplest mesh to generate by
+!! defining most neccessary basic information for mesh like
+!! bounding cube defining the universe, minlevel defining
+!! minimum refinement level in the fluid domain and folder 
+!! defines where to dump the fluid mesh in treelm format.\n
+!! \n
+!! Example to generate the most simple mesh is given below,
+!! \include testsuite/fullyPeriodicCube/seeder.lua
+!! Image below shows the output mesh of fully periodic cube.
+!! \image html fullyPeriodicCube.png
