@@ -33,7 +33,7 @@
 !! to varSys, to access protoData array using get_element interface and routine
 !! to read restart to fill protoData%val
 !!
-?? include 'treelm/source/deriveMacros.inc'
+?? include 'tem/source/deriveMacros.inc'
 
 module sdr_protoData_module
 

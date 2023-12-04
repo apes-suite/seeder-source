@@ -26,7 +26,7 @@
 module sdr_timer_module
   use tem_timer_module,        only: tem_addTimer, tem_getMaxTimerVal, &
     &                                tem_getTimerName
-  use tem_revision_module,     only: tem_solver_revision
+  use soi_revision_module,     only: soi_solver_revision
   use tem_general_module,      only: tem_general_type
   use env_module,              only: rk, pathlen, newunit
 
@@ -133,7 +133,7 @@ contains
 
     ! writes the first part of the output
     write(output,'(1x,a13,1x,a20,1x,i12,1x,i12,1x,i8,1x,EN12.3)') &
-      &  trim(tem_solver_revision),       &
+      &  trim(soi_solver_revision),       &
       &  trim(general%solver%simName),    &
       &  nFluids,                         &
       &  nBnds,                           &
