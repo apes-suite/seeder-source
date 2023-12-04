@@ -26,7 +26,7 @@
 !> author: Kannan Masilamani
 !! This module contains spacer definition and routines related to spacers
 
-?? include 'arrayMacros.inc'
+?? include 'tem/source/arrayMacros.inc'
 
 module sdr_spacer_module
   use env_module,                only: rk, minLength, zeroLength

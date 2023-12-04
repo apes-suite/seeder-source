@@ -86,10 +86,6 @@ def build(bld):
 
     else:
 
-        bld(rule='cp ${SRC} ${TGT}',
-            source = bld.path.find_node(['treelm', 'source', 'arrayMacros.inc']),
-            target = bld.path.find_or_declare('arrayMacros.inc'))
-
         bld(
             features = 'coco',
             source   = seed_ppsources)
