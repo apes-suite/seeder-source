@@ -85,10 +85,37 @@ def build(bld):
         utests(bld, ['aotus', 'tem_objs', 'ply_objs', 'objs'], preprocessor='coco')
 
     else:
+        from waflib.extras.make_fordoc import gendoc
 
-        bld(
-            features = 'coco',
-            source   = seed_ppsources)
+        spp = bld(
+          features = 'includes coco',
+          source   = seed_ppsources)
+
+        sdr_preprocessed = []
+        for ppm in spp.tasks:
+          for f in ppm.outputs:
+            sdr_preprocessed.append(f)
+
+        if not bld.env.fordonline:
+          sdr_preprocessed.append(bld.env.fordext_aotus)
+          sdr_preprocessed.append(bld.env.fordext_tem)
+
+        tgt = bld.path.get_bld().make_node('docu/modules.json')
+        bld.env.fordext_sdr = tgt
+
+        bld( rule = gendoc,
+             source = sdr_preprocessed,
+             src_paths = [bld.path.find_node('source').abspath(),
+                          os.path.join(bld.top_dir, 'polynomials', 'source')],
+             target = tgt,
+             extern = ['aoturl = {0}'.format(bld.env.fordext_aotus),
+                       'temurl = {0}'.format(bld.env.fordext_tem)
+                      ],
+             extern_urls = ['aoturl = {0}'.format(bld.env.fordurl_aotus),
+                            'temurl = {0}'.format(bld.env.fordurl_tem)
+                           ],
+             mainpage = os.path.join(bld.top_dir, 'sdr', 'sdr_mainpage.md')
+        )
 
 # Small helping program to help the transition from old mesh files
 # to the new Lua based headers.
