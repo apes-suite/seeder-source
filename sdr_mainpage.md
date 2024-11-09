@@ -4,12 +4,12 @@ src_dir: source/
 src_dir: build/ford
 src_dir: polynomials/source
 exclude_dir: build/ford/treelm
-external: aoturl = https://geb.inf.tu-dresden.de/doxy/aotus
-external: temurl = https://geb.inf.tu-dresden.de/doxy/treelm
+external: aoturl = https://apes-suite.github.io/aotus
+external: temurl = https://apes-suite.github.io/treelm
 output_dir: docu
 page_dir: doc_pages
 copy_subdir: media
-project_website: https://apes.osdn.io/pages/seeder
+project_website: https://apes-suite.github.io/pages/seeder
 graph: true
 graph_maxdepth: 4
 graph_maxnodes: 32
