@@ -63,10 +63,11 @@ def build(bld):
 
         bld(
             features = 'fc fcprogram',
+            name = 'seeder',
             source = 'source/seeder.f90',
             use      = ['tem_objs', 'ply_objs', 'aotus', 'objs', 'cobjs',
                         bld.env.mpi_mem_c_obj]+fxtp_deps,
-            target   = 'seeder')
+            target   = bld.path.parent.find_or_declare('seeder'))
         if bld.env.build_hvs and not bld.options.no_harvesting:
             seed_hvs_sources = bld.path.ant_glob('source/sdr_harvesting/*.f90',
                                                  excl='source/sdr_harvesting/sdr_harvesting.f90')
@@ -76,10 +77,11 @@ def build(bld):
                 target   = 'sdr_hvs_objs')
             bld(
                 features = 'fc fcprogram',
+                name     = 'sdr_harvesting',
                 source   = 'source/sdr_harvesting/sdr_harvesting.f90',
                 use      = ['tem_objs', 'ply_objs', 'aotus', 'objs',
                             bld.env.mpi_mem_c_obj, 'sdr_hvs_objs', 'base64']+fxtp_deps,
-                target = 'sdr_harvesting')
+                target = bld.path.parent.find_or_declare('sdr_harvesting'))
 
 
         utests(bld, ['aotus', 'tem_objs', 'ply_objs', 'objs'], preprocessor='coco')
